@@ -1,0 +1,9 @@
+venv/
+.env
+__pycache__/
+*.pyc
+meetmind.db
+*.db
+uploads/
+.vscode/
+.DS_Store

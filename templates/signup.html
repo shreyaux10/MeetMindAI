@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account | MeetMind AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="auth-page">
+
+    <main class="auth-layout">
+
+        <!-- LEFT BRANDING PANEL -->
+        <section class="auth-showcase">
+
+            <a href="{{ url_for('signup') }}" class="auth-logo">
+                <div class="auth-logo-icon">M</div>
+
+                <div>
+                    <h2>MeetMind <span>AI</span></h2>
+                    <p>Workspace Intelligence</p>
+                </div>
+            </a>
+
+            <div class="showcase-content">
+
+                <div class="showcase-tag">
+                    <span class="live-dot"></span>
+                    YOUR INTELLIGENT WORKSPACE
+                </div>
+
+                <h1>
+                    Meetings end.<br>
+                    <span>Knowledge shouldn't.</span>
+                </h1>
+
+                <p class="showcase-description">
+                    Turn conversations into meaningful insights,
+                    important decisions and actionable tasks.
+                    Experience a smarter way to manage meetings.
+                </p>
+
+                <div class="showcase-visual">
+
+                    <div class="visual-glow"></div>
+
+                    <div class="visual-card visual-card-main">
+                        <div class="visual-card-header">
+                            <span class="visual-icon">✦</span>
+                            <span>AI MEETING INSIGHTS</span>
+                            <span class="visual-status">● Active</span>
+                        </div>
+
+                        <div class="visual-line visual-line-long"></div>
+                        <div class="visual-line visual-line-medium"></div>
+
+                        <div class="visual-insights">
+                            <div>
+                                <span class="insight-number">01</span>
+                                <p>Key Points</p>
+                            </div>
+
+                            <div>
+                                <span class="insight-number">02</span>
+                                <p>Decisions</p>
+                            </div>
+
+                            <div>
+                                <span class="insight-number">03</span>
+                                <p>Action Items</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="floating-star">✦</div>
+                </div>
+
+                <div class="showcase-footer">
+                    <span>✦</span>
+                    Intelligence behind every conversation.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RIGHT SIGNUP PANEL -->
+        <section class="auth-form-section">
+
+            <div class="auth-form-wrapper">
+
+                <div class="auth-mobile-logo">
+                    <div class="auth-logo-icon">M</div>
+                    <h2>MeetMind <span>AI</span></h2>
+                </div>
+
+                <div class="auth-heading">
+                    <div class="auth-heading-label">
+                        START YOUR JOURNEY
+                    </div>
+
+                    <h1>Create your account</h1>
+
+                    <p>
+                        Build your intelligent workspace and make
+                        every meeting more meaningful.
+                    </p>
+                </div>
+
+
+                <!-- FLASH MESSAGES -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% for category, message in messages %}
+                        <div class="auth-message {{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endwith %}
+
+
+                <!-- SIGNUP FORM -->
+                <form method="POST"
+                      action="{{ url_for('signup') }}"
+                      class="modern-auth-form">
+
+                    <div class="auth-form-group">
+                        <label for="name">Full Name</label>
+
+                        <div class="auth-input-wrapper">
+                            <span class="input-icon">♙</span>
+
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                placeholder="Enter your full name"
+                                maxlength="100"
+                                autocomplete="name"
+                                required
+                            >
+                        </div>
+                    </div>
+
+
+                    <div class="auth-form-group">
+                        <label for="email">Email Address</label>
+
+                        <div class="auth-input-wrapper">
+                            <span class="input-icon">✉</span>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="Enter your email address"
+                                maxlength="254"
+                                autocomplete="email"
+                                required
+                            >
+                        </div>
+                    </div>
+
+
+                    <div class="auth-form-group">
+                        <label for="password">Password</label>
+
+                        <div class="auth-input-wrapper">
+                            <span class="input-icon">♙</span>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Create a strong password"
+                                minlength="8"
+                                autocomplete="new-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                onclick="togglePassword('password', this)"
+                                aria-label="Show password">
+                                Show
+                            </button>
+                        </div>
+
+                        <small class="auth-hint">
+                            Use at least 8 characters.
+                        </small>
+                    </div>
+
+
+                    <button type="submit" class="auth-button">
+                        <span>Create Account</span>
+                        <span class="button-arrow">→</span>
+                    </button>
+
+                </form>
+
+
+                <div class="auth-divider">
+                    <span>ALREADY PART OF THE WORKSPACE?</span>
+                </div>
+
+                <p class="auth-footer">
+                    Already have an account?
+                    <a href="{{ url_for('login') }}">Sign in</a>
+                </p>
+
+                <div class="auth-security-note">
+                    <span>✦</span>
+                    Your intelligent workspace starts here.
+                </div>
+
+            </div>
+
+            <p class="auth-copyright">
+                © 2026 MeetMind AI. All rights reserved.
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <script>
+        function togglePassword(inputId, button) {
+            const input = document.getElementById(inputId);
+
+            if (input.type === "password") {
+                input.type = "text";
+                button.textContent = "Hide";
+                button.setAttribute("aria-label", "Hide password");
+            } else {
+                input.type = "password";
+                button.textContent = "Show";
+                button.setAttribute("aria-label", "Show password");
+            }
+        }
+    </script>
+
+</body>
+</html>

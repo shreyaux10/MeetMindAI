@@ -1,0 +1,319 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeetMind AI - Workspace Intelligence</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-logo">M</div>
+            <div>
+                <h2>MeetMind <span>AI</span></h2>
+                <p>Workspace Intelligence</p>
+            </div>
+        </div>
+
+        <p class="menu-heading">MAIN MENU</p>
+
+       
+<nav>
+    <button class="nav-item active" id="dashboardBtn">
+        <span>⌂</span> Dashboard
+    </button>
+
+    <button class="nav-item" id="newMeetingBtn">
+        <span>＋</span> New Meeting
+    </button>
+
+    <button class="nav-item" id="historyBtn">
+        <span>◷</span> Meeting History
+    </button>
+
+    <a href="{{ url_for('settings') }}" class="nav-item settings-nav-item">
+        <span>⚙</span> Settings
+    </a>
+</nav>
+
+
+        
+<div class="sidebar-footer">
+
+    <div class="profile">
+        <div class="profile-avatar">
+            {{ current_user.name[0]|upper }}
+        </div>
+
+        <div class="profile-info">
+            <strong>{{ current_user.name }}</strong>
+            <small>Personal Account</small>
+        </div>
+    </div>
+
+    <form method="POST" action="{{ url_for('logout') }}">
+        <button type="submit" class="sidebar-logout-btn">
+            <span>↪</span>
+            <span>Logout</span>
+        </button>
+    </form>
+
+</div>
+
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <p class="top-label">YOUR INTELLIGENT WORKSPACE</p>
+                <h1>Dashboard</h1>
+            </div>
+
+            <div class="top-status">
+                <span class="online-dot"></span>
+                Workspace Active
+            </div>
+        </header>
+
+
+        <!-- Dashboard Section -->
+        <section id="dashboardSection">
+
+            <div class="welcome-banner">
+
+                <div>
+                    <p class="banner-label">WELCOME TO MEETMIND AI</p>
+
+                    <h2>Meetings end.<br>
+                        <span>Knowledge shouldn't.</span>
+                    </h2>
+
+                    <p>
+                        Turn conversations into meaningful insights,
+                        decisions and actionable tasks.
+                    </p>
+
+                    <button class="banner-button" id="startMeetingBtn">
+                        + Create New Meeting
+                    </button>
+                </div>
+
+                <div class="banner-decoration">✦</div>
+
+            </div>
+
+
+            <!-- Statistics -->
+            <div class="stats-container">
+
+                <div class="stat-card">
+                    <p>Total Meetings</p>
+                    <h2 id="totalMeetings">0</h2>
+                    <small>Meetings saved</small>
+                </div>
+
+                <div class="stat-card">
+                    <p>Action Items</p>
+                    <h2 id="totalTasks">0</h2>
+                    <small>Tasks identified</small>
+                </div>
+
+                <div class="stat-card">
+                    <p>AI Assistant</p>
+                    <h2 class="ai-label" id="aiStatus">Checking...</h2>
+                    <small>OpenAI connection</small>
+                </div>
+
+            </div>
+
+
+            <!-- Quick Actions -->
+            <div class="section-heading">
+                <div>
+                    <h2>Workspace Tools</h2>
+                    <p>Manage your meetings intelligently.</p>
+                </div>
+            </div>
+
+            <div class="tools-grid">
+
+                <div class="tool-card" id="createMeetingCard">
+                    <div class="tool-icon purple">✦</div>
+                    <h3>Meeting Intelligence</h3>
+                    <p>Generate summaries, key points and action items.</p>
+                    <span>Get Started →</span>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-icon blue">▤</div>
+                    <h3>Document Intelligence</h3>
+                    <p>Organize and understand your important documents.</p>
+                    <span>Coming Soon</span>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-icon green">✓</div>
+                    <h3>Task Management</h3>
+                    <p>Keep track of responsibilities and deadlines.</p>
+                    <span>Coming Soon</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- New Meeting Section -->
+        <section id="meetingSection" class="hidden">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Create New Meeting</h2>
+                    <p>Enter your meeting details to get started.</p>
+                </div>
+            </div>
+
+            <div class="meeting-form">
+
+                <label for="meetingTitle">Meeting Title</label>
+                <input
+                    type="text"
+                    id="meetingTitle"
+                    placeholder="Enter meeting title"
+                >
+
+                <label for="attendees">Attendees</label>
+                <input
+                    type="text"
+                    id="attendees"
+                    placeholder="Enter attendee names"
+                >
+
+                <label for="audioFile">Upload Meeting Recording</label>
+                <input
+                    type="file"
+                    id="audioFile"
+                    accept="audio/*,.mp4"
+                >
+
+                <label for="transcript">Meeting Transcript / Notes</label>
+                <textarea
+                    id="transcript"
+                    rows="8"
+                    placeholder="Paste your meeting transcript or notes here..."
+                ></textarea>
+
+                <button class="primary-button" id="generateBtn">
+                    ✦ Generate AI Summary
+                </button>
+
+                <p id="generateStatus"></p>
+
+            </div>
+
+            <div id="resultSection" class="result-section hidden">
+
+    <h2>AI Meeting Results</h2>
+
+    <div class="result-actions">
+        <button id="downloadPdfBtn" class="download-pdf-btn" type="button">
+            <span>↓</span> Download Meeting Report (PDF)
+        </button>
+    </div>
+
+    <div class="result-card">
+        <h3>Meeting Summary</h3>
+        <p id="summaryText"></p>
+    </div>
+
+                <div class="result-card">
+                    <h3>Key Discussion Points</h3>
+                    <ul id="keyPoints"></ul>
+                </div>
+
+                <div class="result-card">
+                    <h3>Decisions Made</h3>
+                    <ul id="decisions"></ul>
+                </div>
+
+                <div class="result-card">
+                    <h3>Action Items</h3>
+                    <div id="actionItems"></div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Meeting History Section -->
+       
+<section id="historySection" class="hidden">
+
+    <div class="section-heading">
+        <div>
+            <h2>Meeting History</h2>
+            <p>View and manage your previously analyzed meetings.</p>
+        </div>
+    </div>
+
+    <!-- SEARCH AND FILTERS -->
+    <div class="history-filter-container">
+
+        <div class="history-search">
+            <span>🔍</span>
+            <input
+                type="text"
+                id="meetingSearch"
+                placeholder="Search by meeting title or transcript..."
+            >
+        </div>
+
+        <div class="history-date-filters">
+
+            <div>
+                <label for="startDate">From Date</label>
+                <input type="date" id="startDate">
+            </div>
+
+            <div>
+                <label for="endDate">To Date</label>
+                <input type="date" id="endDate">
+            </div>
+
+            <button type="button" id="clearFiltersBtn">
+                Clear Filters
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- MEETING RESULTS -->
+    <div id="historyList"></div>
+
+</section>
+
+
+    </main>
+
+   <!-- PDF GENERATION LIBRARY -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<!-- MEETMIND AI JAVASCRIPT -->
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+
+</body>
+</html>
